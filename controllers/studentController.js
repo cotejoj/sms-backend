@@ -2,8 +2,31 @@ const Student = require('../models/Student');
 
 exports.createStudent = async (req, res) => {
   try {
-    const student = new Student(req.body);
+    const { name, email, age, gender, courses, grades } = req.body;
+
+    // Get current year
+    const year = new Date().getFullYear();
+
+    // Count students created this year
+    const count = await Student.countDocuments({
+      enrollmentNumber: { $regex: `^ENR${year}-` }
+    });
+
+    const paddedCount = String(count + 1).padStart(3, '0');
+    const enrollmentNumber = `ENR${year}-${paddedCount}`;
+
+    const student = new Student({
+      name,
+      email,
+      enrollmentNumber,
+      age,
+      gender,
+      courses,
+      grades
+    });
+
     await student.save();
+
     res.status(201).json(student);
   } catch (err) {
     res.status(400).json({ msg: 'Error creating student', error: err.message });
@@ -44,7 +67,8 @@ exports.getAllStudents = async (req, res) => {
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const students = await Student.find(query)
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .populate('courses');
 
     const total = await Student.countDocuments(query);
 
@@ -64,7 +88,7 @@ exports.getAllStudents = async (req, res) => {
 
 exports.getStudentById = async (req, res) => {
   try {
-    const student = await Student.findById(req.params.id);
+    const student = await Student.findById(req.params.id).populate('courses');
     if (!student) return res.status(404).json({ msg: 'Student not found' });
     res.json(student);
   } catch (err) {

@@ -9,12 +9,12 @@ const {
 } = require('../controllers/studentController');
 
 const auth = require('../middlewares/authMiddleware');
-
+const allowRoles = require('../middlewares/roleMiddlware');
 // All routes require login
-router.post('/', auth, createStudent);
-router.get('/', auth, getAllStudents);
-router.get('/:id', auth, getStudentById);
-router.put('/:id', auth, updateStudent);
-router.delete('/:id', auth, deleteStudent);
+router.post('/', auth, allowRoles('staff', 'admin'), createStudent);
+router.get('/', auth, allowRoles('staff', 'admin'), getAllStudents);
+router.get('/:id', auth, allowRoles('staff', 'admin'), getStudentById);
+router.put('/:id', auth, allowRoles('staff', 'admin'), updateStudent);
+router.delete('/:id', auth, allowRoles('staff', 'admin'), deleteStudent);
 
 module.exports = router;

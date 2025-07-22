@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const createDefaultAdmin = require('./utils/createDefaultAdmin')
 const studentRoutes = require('./routes/student');
+const courseRoutes = require('./routes/course');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 
+app.use('/api/courses', courseRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/auth', authRoutes);
 

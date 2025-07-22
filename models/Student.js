@@ -6,7 +6,7 @@ const StudentSchema = new mongoose.Schema({
   enrollmentNumber: { type: String, required: true, unique: true },
   age: Number,
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
-  courses: [String],
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
   grades: {
     type: Map,
     of: String // Example: { "Math": "A", "Science": "B" }
