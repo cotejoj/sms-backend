@@ -2,7 +2,7 @@ const Student = require('../models/Student');
 
 exports.createStudent = async (req, res) => {
   try {
-    const { name, email, age, gender, courses, grades } = req.body;
+    const { name, email, age, gender, course, grades } = req.body;
 
     // Get current year
     const year = new Date().getFullYear();
@@ -21,7 +21,7 @@ exports.createStudent = async (req, res) => {
       enrollmentNumber,
       age,
       gender,
-      courses,
+      course,
       grades
     });
 
@@ -56,7 +56,7 @@ exports.getAllStudents = async (req, res) => {
 
     // Filter by course
     if (course) {
-      query.$and.push({ courses: course });
+      query.$and.push({ course: course });
     }
 
     // Filter by gender
@@ -68,7 +68,7 @@ exports.getAllStudents = async (req, res) => {
     const students = await Student.find(query)
       .skip(skip)
       .limit(parseInt(limit))
-      .populate('courses');
+      .populate('course');
 
     const total = await Student.countDocuments(query);
 
@@ -88,7 +88,7 @@ exports.getAllStudents = async (req, res) => {
 
 exports.getStudentById = async (req, res) => {
   try {
-    const student = await Student.findById(req.params.id).populate('courses');
+    const student = await Student.findById(req.params.id).populate('course');
     if (!student) return res.status(404).json({ msg: 'Student not found' });
     res.json(student);
   } catch (err) {
