@@ -1,6 +1,7 @@
 const Student = require('../models/Student');
 
 exports.createStudent = async (req, res) => {
+  console.log('Creating student with data:', req.body);
   try {
     const { firstName, middleName,lastName , status, email, birthDate,birthPlace,addressLine1,addressLine2,state,country,postalCode,phone, age, gender, course,grades } = req.body;
 
