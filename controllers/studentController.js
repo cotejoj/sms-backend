@@ -2,7 +2,7 @@ const Student = require('../models/Student');
 
 exports.createStudent = async (req, res) => {
   try {
-    const { name, email, age, gender, course, grades } = req.body;
+    const { name, email, birthdate,address,phone, age, gender, course, grades } = req.body;
 
     // Get current year
     const year = new Date().getFullYear();
@@ -19,6 +19,9 @@ exports.createStudent = async (req, res) => {
       name,
       email,
       enrollmentNumber,
+      birthdate,
+      address,
+      phone,
       age,
       gender,
       course,
