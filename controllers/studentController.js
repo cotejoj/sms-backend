@@ -2,7 +2,7 @@ const Student = require('../models/Student');
 
 exports.createStudent = async (req, res) => {
   try {
-    const { name, email, birthdate,address,phone, age, gender, course, grades } = req.body;
+    const { firstName, middleName,lastName , status, email, birthDate,birthPlace,addressLine1,addressLine2,state,country,postalCode,phone, age, gender, course,grades } = req.body;
 
     // Get current year
     const year = new Date().getFullYear();
@@ -16,11 +16,19 @@ exports.createStudent = async (req, res) => {
     const enrollmentNumber = `ENR${year}-${paddedCount}`;
 
     const student = new Student({
-      name,
+      firstName,
+      middleName,
+      lastName,
+      status,
       email,
       enrollmentNumber,
-      birthdate,
-      address,
+      birthDate,
+      birthPlace,
+      addressLine1,
+      addressLine2,
+      state,
+      country,
+      postalCode,
       phone,
       age,
       gender,
